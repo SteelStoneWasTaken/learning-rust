@@ -1,4 +1,4 @@
-use std::{io, path::PrefixComponent};
+use std::io;
 /*
 fn soma(x: i32, y: i32) -> i32 {
     return x + y;
@@ -46,38 +46,48 @@ fn game(player: &str) {
     
     let mut turno = player.trim();
     
-    let mut count = 0;
-    while count < 5 {
-        count += 1;
-        
-        if turno == "X" {
-            println!("Turno {turno}");
-            
-            turno = "O";
+    let mut count = 1;
+    while count <= 9 {
+        if turno == "X" && count <= 9 {
+            println!("\n Turno {turno} ({count})");
+            println!("\
+                \n *---+---+---+---*    \
+                \n |   | A | B | C |    \
+                \n +---+---+---+---+    \
+                \n | 1 | {} | {} | {} | \
+                \n +---+---+---+---+    \
+                \n | 2 | {} | {} | {} | \
+                \n +---+---+---+---+    \
+                \n | 3 | {} | {} | {} | \
+                \n *---+---+---+---*    \
+                ",a1,a2,a3,b1,b2,b3,c1,c2,c3);
+            verify_win();
+            turno = "O"; count += 1;
         }
-        if turno == "O" {
-            println!("Turno {turno}");
+        if turno == "O" && count <= 9 {
+            println!("\n Turno {turno} ({count})");
+            println!("\
+                \n *---+---+---+---*    \
+                \n |   | A | B | C |    \
+                \n +---+---+---+---+    \
+                \n | 1 | {} | {} | {} | \
+                \n +---+---+---+---+    \
+                \n | 2 | {} | {} | {} | \
+                \n +---+---+---+---+    \
+                \n | 3 | {} | {} | {} | \
+                \n *---+---+---+---*    \
+                ",a1,a2,a3,b1,b2,b3,c1,c2,c3);
             
-            turno = "X";
-        }
+            verify_win();
+            turno = "X"; count += 1;
+        };
         //error
-        if count == 5 {
+        if count >= 9 {
             println!("Limite de ciclos maximos excedido!")
         }
     }
-    
-    
-    /*
-    println!("\
-        \n *---+---+---+---*    \
-        \n |   | A | B | C |    \
-        \n +---+---+---+---+    \
-        \n | 1 | {} | {} | {} | \
-        \n +---+---+---+---+    \
-        \n | 2 | {} | {} | {} | \
-        \n +---+---+---+---+    \
-        \n | 3 | {} | {} | {} | \
-        \n *---+---+---+---*    \
-        ",a1,a2,a3,b1,b2,b3,c1,c2,c3);
-        */
+}
+
+fn verify_win(){
+    println!("Próximo Turno!");
 }

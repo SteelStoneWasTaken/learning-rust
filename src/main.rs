@@ -40,6 +40,7 @@ fn jogo(mut turno: &str) {
         //          LER LINHA - ESPERAR POR COORDENADA
         //          COORDENADA VÁLIDA? {
         //              APLICAR {TURNO} NA COORDENADA
+        //              BREAK;
         //          }
         //        }
         

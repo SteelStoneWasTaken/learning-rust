@@ -12,7 +12,7 @@ fn main() {
         "
     );
     
-    let turno = "X"; //TEMPORÁRIO: PADRÃO ALEATÓRIO E ESCOLHIDO PELO JOGADOR
+    let turno = "X"; // TEMPORÁRIO: PADRÃO ALEATÓRIO OU ESCOLHIDO PELO JOGADOR
     
     loop {
         let mut start_selection = String::new();
@@ -34,6 +34,14 @@ fn jogo(mut turno: &str) {
     let mut max = 0;
     while max < 9 {
         max += 1; println!("\nTurno {turno} ({max}/9)");
+        
+        // CRIAR: LOOP{
+        //          EXIBIR ÚLTIMO ESTADO DO MAPA.
+        //          LER LINHA - ESPERAR POR COORDENADA
+        //          COORDENADA VÁLIDA? {
+        //              APLICAR {TURNO} NA COORDENADA
+        //          }
+        //        }
         
         verificar(turno);
         match turno {

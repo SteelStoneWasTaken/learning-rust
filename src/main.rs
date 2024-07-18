@@ -1,7 +1,9 @@
 use std::{io, process::exit};
 
-static INVALID_OP: &str= "OPÇÃO INVÁLIDA.";
-static ERR_COORD1: &str= "COORDENADA OCUPADA.";
+static  INVALID_OP: &str= "OPÇÃO INVÁLIDA.";
+static  ERR_COORD1: &str= "COORDENADA OCUPADA.";
+static  TURNO: &str = "X";
+
 
 fn main() {
     println!(
@@ -12,12 +14,13 @@ fn main() {
         \nDigite o nome ou o número  \
         \nda opção desejada.         \
         \n                           \
-        \n1 - Começar                \
-        \n2 - Sair
+        \n1 - Começar.               \
+        \n2 - Configurações. (temp.) \
+        \n3 - Sair.
         "
     );
-    
-    let turno = "X"; // TEMPORÁRIO: PADRÃO ALEATÓRIO OU ESCOLHIDO PELO JOGADOR (menu: opções)
+
+    // TEMPORÁRIO: PADRÃO ALEATÓRIO OU ESCOLHIDO PELO JOGADOR (menu: opções)
     
     loop {
         let mut start_selection = String::new();
@@ -28,34 +31,36 @@ fn main() {
         let start_selection = start_selection.trim().to_uppercase();
         
         match start_selection.as_str() {
-            "COMEÇAR" | "1" =>{println!("\n\n\n"); jogo(turno);},
-            "SAIR"    | "2" => exit(0),
+            "COMEÇAR" | "1" =>{println!("\n\n\n"); jogo(TURNO);},
+            "SAIR"    | "3" => exit(0),
             _ => println!("{INVALID_OP}")
         }
     }
 }
 
+
+
 fn jogo(mut turno: &str) {
-    // Tabuleiro:
-    let mut a1 = " "; let mut a2 = " "; let mut a3 = " ";
-    let mut b1 = " "; let mut b2 = " "; let mut b3 = " ";
-    let mut c1 = " "; let mut c2 = " "; let mut c3 = " ";
-    // Ciclo do jogo:
+    let mut map = [
+        " "," "," ",
+        " "," "," ",
+        " "," "," "];
+    
     let mut max = 0;
     while max < 9 {   
         max += 1;
-        // Turno do jogador:
+        
         loop {  
             println!("\nTurno {turno} ({max}/9)");
-            println!(
-                "\n  | 1 | 2 | 3    \
+            println!("
+                \n  | 1 | 2 | 3    \
                 \n--+---+---+---   \
                 \nA | {} | {} | {} \
                 \n--+---+---+---   \
                 \nB | {} | {} | {} \
                 \n--+---+---+---   \
                 \nC | {} | {} | {} 
-                ",a1,a2,a3,b1,b2,b3,c1,c2,c3);
+                ",map[0],map[1],map[2],map[3],map[4],map[5],map[6],map[7],map[8]);
             
             let mut coord = String::new();
             io::stdin()
@@ -64,22 +69,21 @@ fn jogo(mut turno: &str) {
             let coord = coord.trim().to_uppercase();
             
             match coord.as_str() { 
-                "A1" => {if a1 == " " {a1 = turno; break;} println!("{ERR_COORD1}")},
-                "A2" => {if a2 == " " {a2 = turno; break;} println!("{ERR_COORD1}")},
-                "A3" => {if a3 == " " {a3 = turno; break;} println!("{ERR_COORD1}")},
-                "B1" => {if b1 == " " {b1 = turno; break;} println!("{ERR_COORD1}")},
-                "B2" => {if b2 == " " {b2 = turno; break;} println!("{ERR_COORD1}")},
-                "B3" => {if b3 == " " {b3 = turno; break;} println!("{ERR_COORD1}")},
-                "C1" => {if c1 == " " {c1 = turno; break;} println!("{ERR_COORD1}")},
-                "C2" => {if c2 == " " {c2 = turno; break;} println!("{ERR_COORD1}")},
-                "C3" => {if c3 == " " {c3 = turno; break;} println!("{ERR_COORD1}")},
+                "A1" => {if map[0] == " " {map[0] = turno; break;} println!("{ERR_COORD1}")},
+                "A2" => {if map[1] == " " {map[1] = turno; break;} println!("{ERR_COORD1}")},
+                "A3" => {if map[2] == " " {map[2] = turno; break;} println!("{ERR_COORD1}")},
+                "B1" => {if map[3] == " " {map[3] = turno; break;} println!("{ERR_COORD1}")},
+                "B2" => {if map[4] == " " {map[4] = turno; break;} println!("{ERR_COORD1}")},
+                "B3" => {if map[5] == " " {map[5] = turno; break;} println!("{ERR_COORD1}")},
+                "C1" => {if map[6] == " " {map[6] = turno; break;} println!("{ERR_COORD1}")},
+                "C2" => {if map[7] == " " {map[7] = turno; break;} println!("{ERR_COORD1}")},
+                "C3" => {if map[8] == " " {map[8] = turno; break;} println!("{ERR_COORD1}")},
                 "SAIR" => exit(0),
                 "VOLTAR" | "MENU" => main(),
                 _ => println!("{INVALID_OP}")
             }
-        }
-        
-        verificar(turno);
+        } 
+        verificar(turno, map);
         match turno {
             "X" => turno = "O",
             "O" => turno = "X",
@@ -93,16 +97,30 @@ fn jogo(mut turno: &str) {
         "); exit(0);
 }
 
-fn verificar(turno: &str) {
-    
-    let win = false; // TEMPORÁRIO: EXISTE ALGUMA LINHA NO TABULEIRO?
-    
-    if  win == true {
-        println!("
+
+
+fn verificar(turno: &str, map: [&str; 9]) {
+    if 
+    map[0] == map[1] && map[1] == map[2] && map[0] != " " || // Primeira linha completa.
+    map[3] == map[4] && map[4] == map[5] && map[3] != " " || // Segunda linha completa.
+    map[6] == map[7] && map[7] == map[8] && map[6] != " " || // Terceira linha completa
+    map[0] == map[3] && map[3] == map[6] && map[0] != " " || // Primeira coluna completa.
+    map[1] == map[4] && map[4] == map[7] && map[1] != " " || // Segunda coluna completa.
+    map[2] == map[5] && map[5] == map[8] && map[2] != " " || // Terceira coluna completa.
+    map[0] == map[4] && map[4] == map[8] && map[0] != " " || // Diagonal \ completa
+    map[2] == map[4] && map[4] == map[6] && map[2] != " "    // Diagonal / completa.
+    {println!("
+            \n+-----------------+   \
+            \n|    | 1 | 2 | 3  |   \
+            \n+ ---+---+---+--- +   \
+            \n|  A | {} | {} | {}  |\
+            \n+ ---+---+---+--- +   \
+            \n|  B | {} | {} | {}  |\
+            \n+ ---+---+---+--- +   \
+            \n|  C | {} | {} | {}  |\
             \n+-----------------+\
             \n|  Vitória de {turno}!  |\
             \n+-----------------+
-            ");
-        exit(0);
-    }
+            ",map[0],map[1],map[2],map[3],map[4],map[5],map[6],map[7],map[8]);
+    exit(0);}
 }

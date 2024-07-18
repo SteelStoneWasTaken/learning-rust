@@ -20,7 +20,7 @@ fn main() {
         "
     );
 
-    // TEMPORÁRIO: PADRÃO ALEATÓRIO OU ESCOLHIDO PELO JOGADOR (menu: opções)
+    //PADRÃO ALEATÓRIO OU ESCOLHIDO PELO JOGADOR (menu: configurações)
     
     loop {
         let mut start_selection = String::new();
@@ -31,7 +31,7 @@ fn main() {
         let start_selection = start_selection.trim().to_uppercase();
         
         match start_selection.as_str() {
-            "COMEÇAR" | "1" =>{println!("\n\n\n"); jogo(TURNO);},
+            "COMEÇAR" | "1" => jogo(TURNO),
             "SAIR"    | "3" => exit(0),
             _ => println!("{INVALID_OP}")
         }
@@ -52,7 +52,7 @@ fn jogo(mut turno: &str) {
         
         loop {  
             println!("\nTurno {turno} ({max}/9)");
-            println!("
+            println!("\
                 \n  | 1 | 2 | 3    \
                 \n--+---+---+---   \
                 \nA | {} | {} | {} \
